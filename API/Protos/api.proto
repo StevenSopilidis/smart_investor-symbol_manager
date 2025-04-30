@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+option csharp_namespace = "API";
+
+package api;
+
+service Api {
+    rpc PostSymbol(PostSymbolRequest) returns (PostSymbolResponse);
+    rpc GetSymbols(GetSymbolRequest) returns (GetSymbolResponse);
+    rpc GetActiveSymbols(GetActiveSymbolsRequest) returns (GetActiveSymbolsResponse);
+    rpc ToggleSymbolActivation(ToggleSymbolActivationRequest) returns (ToggleSymbolActivationResponse);
+}
+
+message PostSymbolRequest {
+    string ticker = 1;
+    string exchange = 2;
+}
+
+message PostSymbolResponse {}
+
+message GetSymbolRequest {
+    string ticker = 1;
+}
+
+message GetSymbolResponse {
+    string ticker = 1;
+    string exchange = 2;
+    bool active = 3;
+}
+
+message GetActiveSymbolsRequest {
+    string ticker = 1;
+}
+
+message GetActiveSymbolsResponse {
+    string ticker = 1;
+    string exchange = 2;
+}
+
+message ToggleSymbolActivationRequest {
+    string ticker = 1;
+}
+
+message ToggleSymbolActivationResponse {}
