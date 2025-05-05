@@ -7,16 +7,16 @@ namespace Application.Common
         public bool IsSuccess { get; set; }
         public T Value { get; set; }
         public Error Error { get; set; }
-        public HttpStatusCode StatusCode { get; set; }
+        public ErrorType Type { get; set; }
 
         public static Result<T> Success(T value)
-            => new() { IsSuccess = true, Value = value, StatusCode = HttpStatusCode.OK};
+            => new() { IsSuccess = true, Value = value};
 
-        public static Result<T> Failure(HttpStatusCode code, string errorCode, string errorMessage)
-            => Failure(code, Error.Create(errorCode, errorMessage));
+        public static Result<T> Failure(string errorCode, string errorMessage, ErrorType type)
+            => Failure(Error.Create(errorCode, errorMessage), type);
         
-        public static Result<T> Failure(HttpStatusCode code, Error error)
-            => new() { IsSuccess = false, Error = error, StatusCode = code};
+        public static Result<T> Failure(Error error, ErrorType type)
+            => new() { IsSuccess = false, Error = error, Type = type};
 
     }
 }

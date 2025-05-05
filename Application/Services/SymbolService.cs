@@ -25,18 +25,18 @@ namespace Application.Services
             var symbol = await _repo.GetSymbol(dto.Ticker);
             if (symbol is not null)
                 return Result<SymbolDto>.Failure(
-                    HttpStatusCode.BadRequest,
                     "DuplicateTicker", 
-                    "Provided Ticker already exists" 
+                    "Provided Ticker already exists",
+                    ErrorType.BadRequest
                 );
 
             var newSymbol = _mapper.Map<Symbol>(dto);
             var created = await _repo.CreateSymbol(newSymbol);
             if (!created)
                 return Result<SymbolDto>.Failure(
-                    HttpStatusCode.InternalServerError,
                     "InternalError", 
-                    "Could not create Symbol" 
+                    "Could not create Symbol",
+                    ErrorType.SomethingWentWrong
                 );
 
             var resultDto = _mapper.Map<SymbolDto>(newSymbol);
@@ -62,18 +62,18 @@ namespace Application.Services
             var symbol = await _repo.GetSymbol(ticker);
             if (symbol is not null)
                 return Result<bool>.Failure(
-                    HttpStatusCode.BadRequest,
                     "DuplicateTicker", 
-                    "Provided Ticker already exists" 
+                    "Provided Ticker already exists",
+                    ErrorType.BadRequest
                 );
 
             symbol!.Active = !symbol.Active;
             var changed = await _repo.TooggleSymbolActivation(symbol);
             if (!changed)
                 return Result<bool>.Failure(
-                    HttpStatusCode.BadRequest,
                     "InternalError", 
-                    "Could not save changes made to symbol" 
+                    "Could not save changes made to symbol",
+                    ErrorType.BadRequest
                 );
 
             return Result<bool>.Success(true);
