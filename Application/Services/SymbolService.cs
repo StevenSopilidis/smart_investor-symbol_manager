@@ -68,12 +68,12 @@ namespace Application.Services
                 );
 
             symbol!.Active = !symbol.Active;
-            var changed = await _repo.TooggleSymbolActivation(symbol);
+            var changed = await _repo.ToggleSymbolActivation(symbol);
             if (!changed)
                 return Result<bool>.Failure(
                     "InternalError", 
                     "Could not save changes made to symbol",
-                    ErrorType.BadRequest
+                    ErrorType.SomethingWentWrong
                 );
 
             return Result<bool>.Success(true);

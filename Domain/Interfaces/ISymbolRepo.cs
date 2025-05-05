@@ -8,6 +8,6 @@ namespace Domain.Interfaces
         Task<ICollection<Symbol>> GetSymbols();
         Task<ICollection<Symbol>> GetActiveSymbols();
         Task<bool> CreateSymbol(Symbol symbol);
-        Task<bool> TooggleSymbolActivation(Symbol symbol);
+        Task<bool> ToggleSymbolActivation(Symbol symbol);
     }
 }

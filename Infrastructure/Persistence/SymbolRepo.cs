@@ -31,7 +31,7 @@ namespace Infrastructure.Persistence
             return await _context.Symbols.ToListAsync();
         }
 
-        public async Task<bool> TooggleSymbolActivation(Symbol symbol)
+        public async Task<bool> ToggleSymbolActivation(Symbol symbol)
         {
             symbol.Active = !symbol.Active;
             _context.Symbols.Update(symbol);
