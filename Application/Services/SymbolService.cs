@@ -60,10 +60,10 @@ namespace Application.Services
         public async Task<Result<bool>> ToggleSymbolActivation(string ticker)
         {
             var symbol = await _repo.GetSymbol(ticker);
-            if (symbol is not null)
+            if (symbol is null)
                 return Result<bool>.Failure(
-                    "DuplicateTicker", 
-                    "Provided Ticker already exists",
+                    "InvalidTicker", 
+                    "Provided Ticker does not exist",
                     ErrorType.BadRequest
                 );
 
