@@ -6,10 +6,16 @@ package api;
 
 service Api {
     rpc PostSymbol(PostSymbolRequest) returns (PostSymbolResponse);
-    rpc GetSymbols(GetSymbolRequest) returns (GetSymbolResponse);
+    rpc GetSymbols(GetSymbolsRequest) returns (GetSymbolsResponse);
     rpc GetActiveSymbols(GetActiveSymbolsRequest) returns (GetActiveSymbolsResponse);
     rpc ToggleSymbolActivation(ToggleSymbolActivationRequest) returns (ToggleSymbolActivationResponse);
 }
+
+message Symbol {
+    string ticker = 1;
+    string exchange = 2;
+    bool active = 3;
+};
 
 message PostSymbolRequest {
     string ticker = 1;
@@ -18,23 +24,18 @@ message PostSymbolRequest {
 
 message PostSymbolResponse {}
 
-message GetSymbolRequest {
-    string ticker = 1;
+message GetSymbolsRequest {
 }
 
-message GetSymbolResponse {
-    string ticker = 1;
-    string exchange = 2;
-    bool active = 3;
+message GetSymbolsResponse {
+    repeated Symbol symbols = 1;
 }
 
 message GetActiveSymbolsRequest {
-    string ticker = 1;
 }
 
 message GetActiveSymbolsResponse {
-    string ticker = 1;
-    string exchange = 2;
+    repeated Symbol symbols = 1;
 }
 
 message ToggleSymbolActivationRequest {
