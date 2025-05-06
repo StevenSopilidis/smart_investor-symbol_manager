@@ -24,7 +24,10 @@ namespace Application.Tests
         [Fact]
         public async Task CreateSymbol_Should_Fail_When_Ticker_Exists()
         {
-            var dto = new CreateSymbolDto { Ticker = "ABC" };
+            var dto = new CreateSymbolDto { 
+                Ticker = "ABC", 
+                Exchange="TEST" 
+            };
             _repoMock.Setup(r => r.GetSymbol("ABC"))
                 .ReturnsAsync(new Symbol
                 {
@@ -43,7 +46,10 @@ namespace Application.Tests
         [Fact]
         public async Task CreateSymbol_Should_Fail_When_Repo_Create_Fails()
         {
-            var dto = new CreateSymbolDto { Ticker = "XYZ" };
+            var dto = new CreateSymbolDto { 
+                Ticker = "XYZ",
+                Exchange="TEST"
+            };
             _repoMock.Setup(r => r.GetSymbol("XYZ"))
                 .ReturnsAsync((Symbol?)null);
             _mapperMock.Setup(m => m.Map<Symbol>(dto))
@@ -67,7 +73,10 @@ namespace Application.Tests
         public async Task CreateSymbol_Should_Succeed_When_Repo_Creates()
         {
             var id = Guid.NewGuid();
-            var dto = new CreateSymbolDto { Ticker = "NEW" };
+            var dto = new CreateSymbolDto { 
+                Ticker = "NEW",
+                Exchange="TEST" 
+            };
 
             var entity = new Symbol
             {
