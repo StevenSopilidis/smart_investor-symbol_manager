@@ -9,6 +9,6 @@ namespace Application.Dtos
         public required string Ticker { get; set; }
         [Required]
         [StringLength(12, MinimumLength = 1)]
-        public int Exchange { get; set; }
+        public required string Exchange { get; set; }
     }
 }
