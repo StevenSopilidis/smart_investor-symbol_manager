@@ -1,19 +1,28 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 
-WORKDIR /app
+WORKDIR /src
 
-COPY *.sln ./
-COPY */*.csproj ./
-RUN for f in */*.csproj; do mkdir -p "$(dirname "$f")" && cp "$f" "$(dirname "$f")"; done
+COPY *.sln .
+
+RUN dotnet sln symbol_manager.sln remove Tests/Application.Tests/Application.Tests.csproj
+RUN dotnet sln symbol_manager.sln remove Tests/Infrastructure.Tests/Infrastructure.Tests.csproj
+RUN dotnet sln symbol_manager.sln remove Tests/Api.Tests/Api.Tests.csproj
+
+COPY API/*.csproj ./API/
+COPY Application/*.csproj ./Application/
+COPY Domain/*.csproj ./Domain/
+COPY Infrastructure/*.csproj ./Infrastructure/
+
 RUN dotnet restore
 
-COPY . ./
+COPY . .
 
-RUN dotnet publish symbol_manager/symbol_manager.csproj -c Release -o /app/publish
+WORKDIR /src/API
+RUN dotnet publish -c Release -o /app/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 
 WORKDIR /app
 COPY --from=build /app/publish .
 
-ENTRYPOINT ["dotnet", "symbol_manager.dll"]
+ENTRYPOINT ["dotnet", "API.dll"]
